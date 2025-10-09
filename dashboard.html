@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Employee Portal</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-brand">
+            <img src="images/logo.png" alt="Logo" class="nav-logo">
+            <span>Employee Portal</span>
+        </div>
+        <ul class="nav-menu">
+            <li><a href="dashboard.html" class="active">Dashboard</a></li>
+            <li><a href="attendance.html">Attendance</a></li>
+            <li><a href="sales.html">Sales</a></li>
+            <li><a href="payroll.html">Payroll</a></li>
+            <li><a href="leaves.html">Leaves</a></li>
+            <li class="dropdown">
+                <a href="#" class="user-profile">
+                    <span id="userName">John Doe</span>
+                    <img src="images/user-avatar.png" alt="Profile">
+                </a>
+                <ul class="dropdown-menu">
+                    <li><a href="profile.html">My Profile</a></li>
+                    <li><a href="#" id="logoutBtn">Logout</a></li>
+                </ul>
+            </li>
+        </ul>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container">
+        <div class="page-header">
+            <h1>Welcome, <span id="userDisplayName">John</span>!</h1>
+            <p class="site-info">Site: <span id="currentSite">Mumbai Office</span> | 
+               Date: <span id="currentDate"></span></p>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="quick-actions">
+            <div class="action-card" id="checkInCard">
+                <div class="icon">📍</div>
+                <h3>Check In</h3>
+                <p id="checkInStatus">Not checked in</p>
+                <button class="btn-action" id="checkInBtn">Mark Check In</button>
+            </div>
+            
+            <div class="action-card" id="checkOutCard">
+                <div class="icon">🚪</div>
+                <h3>Check Out</h3>
+                <p id="checkOutStatus">--:--</p>
+                <button class="btn-action" id="checkOutBtn" disabled>Mark Check Out</button>
+            </div>
+            
+            <div class="action-card">
+                <div class="icon">💰</div>
+                <h3>Add Sale</h3>
+                <p>Record new sale</p>
+                <button class="btn-action" onclick="location.href='add-sale.html'">Add Sale</button>
+            </div>
+            
+            <div class="action-card">
+                <div class="icon">📝</div>
+                <h3>Apply Leave</h3>
+                <p>Request leave</p>
+                <button class="btn-action" onclick="location.href='apply-leave.html'">Apply Leave</button>
+            </div>
+        </div>
+
+        <!-- Statistics Cards -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon attendance-icon">👥</div>
+                <div class="stat-info">
+                    <h3 id="presentDays">0</h3>
+                    <p>Present Days (This Month)</p>
+                </div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-icon sales-icon">📊</div>
+                <div class="stat-info">
+                    <h3 id="totalSales">₹0</h3>
+                    <p>Total Sales (This Month)</p>
+                </div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-icon target-icon">🎯</div>
+                <div class="stat-info">
+                    <h3 id="targetProgress">0%</h3>
+                    <p>Target Achievement</p>
+                </div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-icon salary-icon">💵</div>
+                <div class="stat-info">
+                    <h3 id="lastSalary">₹0</h3>
+                    <p>Last Month Salary</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recent Activity -->
+        <div class="content-section">
+            <h2>Recent Activity</h2>
+            <div class="table-container">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Activity</th>
+                            <th>Status</th>
+                            <th>Details</th>
+                        </tr>
+                    </thead>
+                    <tbody id="recentActivity">
+                        <tr>
+                            <td colspan="4" class="text-center">Loading...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Sales Performance Chart -->
+        <div class="content-section">
+            <h2>Monthly Sales Performance</h2>
+            <div class="chart-container">
+                <canvas id="salesChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/config.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/dashboard.js"></script>
+</body>
+</html>
