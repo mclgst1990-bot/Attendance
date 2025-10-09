@@ -1,8 +1,11 @@
 {
-  "name": "sales-attendance-payroll",
+  "name": "attendance",
   "version": "1.0.0",
-  "description": "Sales, Attendance and Payroll Management System",
+  "description": "Sales Attendance Payroll Management System",
   "main": "server.js",
+  "engines": {
+    "node": ">=18.0.0"
+  },
   "scripts": {
     "start": "node server.js",
     "dev": "nodemon server.js"
