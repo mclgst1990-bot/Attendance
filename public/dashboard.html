@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Attendance System</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f5f5;
+        }
+        .navbar {
+            background: #333;
+            color: white;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .navbar h1 { font-size: 24px; }
+        .navbar button {
+            background: #e74c3c;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 20px;
+        }
+        .welcome {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+        .card {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        .card h3 { margin-bottom: 15px; color: #333; }
+        .card button {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        .card button:hover { background: #5568d3; }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <h1>📊 Dashboard</h1>
+        <button onclick="logout()">Logout</button>
+    </div>
+
+    <div class="container">
+        <div class="welcome">
+            <h2>Welcome, <span id="userName">User</span>! 👋</h2>
+            <p style="margin-top: 10px; color: #666;">Employee Code: <span id="empCode"></span></p>
+        </div>
+
+        <div class="cards">
+            <div class="card">
+                <h3>📍 Attendance</h3>
+                <p>Check in/out and view records</p>
+                <button onclick="alert('Attendance feature')">Go to Attendance</button>
+            </div>
+
+            <div class="card">
+                <h3>💰 Sales</h3>
+                <p>Record and track sales</p>
+                <button onclick="alert('Sales feature')">Go to Sales</button>
+            </div>
+
+            <div class="card">
+                <h3>💵 Payroll</h3>
+                <p>View salary and payslips</p>
+                <button onclick="alert('Payroll feature')">Go to Payroll</button>
+            </div>
+
+            <div class="card">
+                <h3>📝 Leave</h3>
+                <p>Apply for leave</p>
+                <button onclick="alert('Leave feature')">Go to Leave</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Check authentication
+        const token = localStorage.getItem('auth_token');
+        if (!token) {
+            window.location.href = '/index.html';
+        }
+
+        // Display user info
+        const userData = JSON.parse(localStorage.getItem('user_data') || '{}');
+        document.getElementById('userName').textContent = userData.firstName || 'User';
+        document.getElementById('empCode').textContent = userData.employeeCode || 'N/A';
+
+        function logout() {
+            localStorage.clear();
+            window.location.href = '/index.html';
+        }
+    </script>
+</body>
+</html>
