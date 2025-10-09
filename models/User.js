@@ -71,13 +71,11 @@ const userSchema = new mongoose.Schema({
         default: true
     }
 }, {
-    timestamps: true  // Automatically adds createdAt and updatedAt
+    timestamps: true
 });
 
-// Index for faster queries
 userSchema.index({ employeeCode: 1, email: 1 });
 
-// Hash password before saving
 userSchema.pre('save', async function(next) {
     if (!this.isModified('passwordHash')) {
         return next();
@@ -87,7 +85,6 @@ userSchema.pre('save', async function(next) {
     next();
 });
 
-// Method to compare password
 userSchema.methods.comparePassword = async function(candidatePassword) {
     return await bcrypt.compare(candidatePassword, this.passwordHash);
 };
