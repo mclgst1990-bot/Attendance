@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Attendance System - Login</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .container {
+            background: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            max-width: 400px;
+            width: 90%;
+        }
+        h1 { color: #333; margin-bottom: 30px; text-align: center; }
+        .form-group { margin-bottom: 20px; }
+        label { display: block; margin-bottom: 5px; color: #555; font-weight: bold; }
+        input, select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+        button {
+            width: 100%;
+            padding: 12px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        button:hover { background: #5568d3; }
+        .error { color: red; font-size: 14px; margin-top: 10px; display: none; }
+        .success { color: green; margin-top: 10px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔐 Login</h1>
+        <form id="loginForm">
+            <div class="form-group">
+                <label>Employee ID / Email</label>
+                <input type="text" id="employeeId" required placeholder="Enter your ID or email">
+            </div>
+            <div class="form-group">
+                <label>Password</label>
+                <input type="password" id="password" required placeholder="Enter your password">
+            </div>
+            <div class="form-group">
+                <label>Select Site</label>
+                <select id="siteSelect" required>
+                    <option value="">-- Select Site --</option>
+                </select>
+            </div>
+            <div class="error" id="errorMsg"></div>
+            <button type="submit">Login</button>
+        </form>
+        <div class="success" style="margin-top: 20px; text-align: center;">
+            <p>✅ System is running!</p>
+            <p>API Base: <code>/api/v1</code></p>
+        </div>
+    </div>
+
+    <script>
+        const API_URL = window.location.origin + '/api/v1';
+        
+        // Load sites on page load
+        fetch(API_URL + '/sites')
+            .then(res => res.json())
+            .then(data => {
+                const select = document.getElementById('siteSelect');
+                data.data.forEach(site => {
+                    const option = document.createElement('option');
+                    option.value = site._id;
+                    option.textContent = site.name + ' - ' + site.code;
+                    select.appendChild(option);
+                });
+            })
+            .catch(err => console.error('Error loading sites:', err));
+
+        // Handle login
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const employeeId = document.getElementById('employeeId').value;
+            const password = document.getElementById('password').value;
+            const siteId = document.getElementById('siteSelect').value;
+            const errorMsg = document.getElementById('errorMsg');
+
+            errorMsg.style.display = 'none';
+
+            try {
+                const response = await fetch(API_URL + '/auth/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ employeeId, password, siteId })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    localStorage.setItem('auth_token', data.token);
+                    localStorage.setItem('user_data', JSON.stringify(data.user));
+                    window.location.href = '/dashboard.html';
+                } else {
+                    errorMsg.textContent = data.message || 'Login failed';
+                    errorMsg.style.display = 'block';
+                }
+            } catch (error) {
+                errorMsg.textContent = 'Error: ' + error.message;
+                errorMsg.style.display = 'block';
+            }
+        });
+    </script>
+</body>
+</html>
